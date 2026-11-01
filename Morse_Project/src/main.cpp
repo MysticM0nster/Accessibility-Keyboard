@@ -70,10 +70,10 @@ void advanceMorseTree(int button_press) {
 }
 
 void confirmMorseTreePosition() {
-  
-
-
-
+  // i know that i have to do something silly for the screen, but thats not implimented yet anywhere else.
+  // i just need to make another variable for now then, or just save it to a dynamic list, albeit a horrible method
+  // optionally i could try and make a file, but i dont know how thats conceptually any different from a list.
+  // in the end what this will end up doing is transmitting the letter as an HID device through BLE
 
 
 }
@@ -97,16 +97,20 @@ void loop() {
   bool dah_is_pressed = (digitalRead(DAH_BUTTON_PIN) == LOW);
   bool confirm_is_pressed = (digitalRead(CONFIRM_BUTTON_PIN) == LOW);
 
-  if (dit_is_pressed && !dit_was_pressed) {
+  if (dit_is_pressed && !dit_was_pressed) { //couldnt use 'else if' because it wouldnt allow me to set it to the last value
     advanceMorseTree(DIT_VALUE);
-    dit_was_pressed = dit_is_pressed;
-
-  } else if (dah_is_pressed && !dah_was_pressed) {
+  }
+  dit_was_pressed = dit_is_pressed;
+ 
+  if (dah_is_pressed && !dah_was_pressed) {
     advanceMorseTree(DAH_VALUE);
-    dah_was_pressed = dah_is_pressed;
+  }
+  dah_was_pressed = dah_is_pressed;
   
-  } else if (confirm_is_pressed && !confirm_was_pressed) {
+  if (confirm_is_pressed && !confirm_was_pressed) {
     confirmMorseTreePosition();
   }
+  confirm_was_pressed = confirm_is_pressed;
+
   delay(20); //TODO: make this non-blocking!!! (debounce)
 }
